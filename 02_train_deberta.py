@@ -3,14 +3,14 @@ from datasets import Dataset
 from transformers import TrainingArguments, Trainer
 from utils import deberta_tok, deberta_model
 
-df = pd.read_csv("data/full_data_0731_aug_4.csv")[["text", "prompt_type"]].dropna()
+df = pd.read_csv("data/full_data_0731_aug_4.csv")[["content", "prompt_type"]].dropna()
 df["label"] = (df["prompt_type"] != 0).astype(int)
 
-ds = Dataset.from_pandas(df[["text", "label"]])
+ds = Dataset.from_pandas(df[["content", "label"]])
 
 
 def tok(batch):
-    return deberta_tok(batch["text"], truncation=True, padding="max_length", max_length=512)
+    return deberta_tok(batch["content"], truncation=True, padding="max_length", max_length=512)
 
 
 ds = ds.map(tok, batched=True).train_test_split(test_size=0.1, seed=42)

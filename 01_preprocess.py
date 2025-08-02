@@ -2,7 +2,7 @@ import pandas as pd, joblib, torch
 from utils import detectgpt_score, style_feats, deberta_tok, deberta_model
 from tqdm import tqdm
 
-df = pd.read_csv("data/full_data_0731_aug_4.csv")[["text", "prompt_type"]].dropna()
+df = pd.read_csv("data/full_data_0731_aug_4.csv")[["content", "prompt_type"]].dropna()
 df["label"] = (df["prompt_type"] != 0).astype(int)
 
 features, labels = [], []
